@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ApiPelicula.Persistance;
+using ApiPelicula.Service;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -26,7 +27,7 @@ namespace ApiPelicula
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<PeliculaDbContext>(opciones => opciones.UseSqlServer(@"Data Source=DESKTOP-7VGTREJ\ITLAPROJECTS;Initial Catalog=Peliculas;Integrated Security=True"));
-
+            services.AddTransient<PeliculaService, PeliculaService>();
             services.AddMvc();
         }
 
