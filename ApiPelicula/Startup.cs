@@ -11,6 +11,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Swashbuckle.AspNetCore.Swagger;
+
 
 namespace ApiPelicula
 {
@@ -29,11 +31,24 @@ namespace ApiPelicula
             services.AddDbContext<PeliculaDbContext>(opciones => opciones.UseSqlServer(@"Data Source=DESKTOP-7VGTREJ\ITLAPROJECTS;Initial Catalog=Peliculas;Integrated Security=True"));
             services.AddTransient<PeliculaService, PeliculaService>();
             services.AddMvc();
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info { Title = "My Api", Version = "v1" });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            app.UseStaticFiles();
+
+            app.UseSwagger();
+
+            app.UseSwaggerUI(C => {
+                C.SwaggerEndpoint("/swagger/v1/swagger.json", "My Api V1");
+            });
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

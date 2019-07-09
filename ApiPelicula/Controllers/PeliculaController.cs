@@ -20,6 +20,7 @@ namespace ApiPelicula.Controllers
             _PeliculaService = NoticiaServicio;
         }
 
+        [HttpGet]
         [Route("VerPeliculas")]
         public IActionResult VerPeliculas()
         {
